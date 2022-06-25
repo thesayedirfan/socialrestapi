@@ -1,0 +1,5 @@
+{
+    "name": "social-api",
+    "extensions": ["golang.go"],
+    "image":"golang"
+}

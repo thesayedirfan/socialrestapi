@@ -1,0 +1,49 @@
+version: "2"
+
+services:
+  app:
+    build: .
+    ports: 
+      - 8080:8080
+    command: gow run .
+    volumes:
+      - .:/app/
+    depends_on:
+      - db
+    environment:
+      - ACCESS_SECRET=jdnfksdmfksd
+      - REFRESH_SECRET=mcmvmkmsdnfsdmfdsjf
+    networks:
+      - microservices
+
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: pass123 
+      POSTGRES_USER: dbuser
+      POSTGRES_DB: db
+    volumes:
+      - "./databasedata:/var/lib/postgresql/data/"
+    logging:
+      driver: none
+    networks:
+      - microservices
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - microservices
+    logging:
+      driver: none
+
+volumes:
+  databasedata:
+    driver: local
+  
+networks:
+  microservices:
+    driver: bridge
